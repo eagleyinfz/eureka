@@ -38,7 +38,7 @@ build-docker-image:
     - mkdir -p /root/.docker
     - echo "$DOCKER_AUTH_CONFIG" > /root/.docker/config.json
     - cd .package
-    - docker build -t ${DOCKER_PRIVATE_REGISTRY_ADDR}/sample/discovery:1.0-$CI_PIPELINE_ID -f .package/target/classes/docker/Dockerfile .
+    - docker build -t ${DOCKER_PRIVATE_REGISTRY_ADDR}/sample/discovery:1.0-$CI_PIPELINE_ID -f target/classes/docker/Dockerfile .
     - docker push ${DOCKER_PRIVATE_REGISTRY_ADDR}/sample/discovery:1.0-$CI_PIPELINE_ID
     - docker rmi ${DOCKER_PRIVATE_REGISTRY_ADDR}/sample/discovery:1.0-$CI_PIPELINE_ID
   tags:
