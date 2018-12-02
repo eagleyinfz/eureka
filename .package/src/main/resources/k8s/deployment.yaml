@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sample
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery
+  namespace: sample
+spec:
+  ports:
+  - name: http-discovery
+    port: 80
+    targetPort: discovery
+  selector:
+    app: discovery
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: discovery
+  namespace: sample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discovery
+  template:
+    metadata:
+      labels:
+        app: discovery
+    spec:
+      imagePullSecrets:
+        - name: ${env.K8S_DOCKER_REGISTRY_PULL_SECRET_NAME}
+        - name: ${env.K8S_DOCKER_PRIVATE_REGISTRY_PULL_SECRET_NAME}
+      containers:
+      - name: hugo
+        image: ${env.DOCKER_PRIVATE_REGISTRY_ADDR}/sample/discovery:1.0-${env.CI_PIPELINE_ID}
+        ports:
+        - containerPort: 8761
+          name: discovery
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: discovery-ingress
+  namespace: sample
+spec:
+  rules:
+  - host: ${env.DISCOVERY_DOMAIN}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: discovery
+          servicePort: 80
