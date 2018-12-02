@@ -27,6 +27,7 @@ maven-package:
     - master
   artifacts:
     paths:
+      - .package/target/lib/*.jar
       - .package/target/classes/docker/Dockerfile
       - .package/target/classes/k8s/deployment.yaml
 
