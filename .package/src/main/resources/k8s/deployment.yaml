@@ -13,7 +13,7 @@ metadata:
 spec:
   ports:
   - name: http-discovery
-    port: 80
+    port: 8761
     targetPort: discovery
   selector:
     app: discovery
@@ -58,4 +58,4 @@ spec:
       - path: /
         backend:
           serviceName: discovery
-          servicePort: 80
+          servicePort: 8761
