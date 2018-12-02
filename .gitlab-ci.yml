@@ -1,8 +1,19 @@
 
 stages:
+  - build
   - package
   - image
   - deploy
+
+maven-build:
+  stage: build
+  image: ${DOCKER_REGISTRY_ADDR}/maven:3-jdk-8
+  script:
+    - mvn clean deploy -P test --settings /maven_home/settings.xml
+  tags:
+    - shared-runner
+  only:
+    - master
 
 maven-package:
   stage: package
