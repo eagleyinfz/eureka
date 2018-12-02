@@ -38,7 +38,7 @@ spec:
         - name: ${env.K8S_DOCKER_REGISTRY_PULL_SECRET_NAME}
         - name: ${env.K8S_DOCKER_PRIVATE_REGISTRY_PULL_SECRET_NAME}
       containers:
-      - name: hugo
+      - name: discovery
         image: ${env.DOCKER_PRIVATE_REGISTRY_ADDR}/sample/discovery:1.0-${env.CI_PIPELINE_ID}
         ports:
         - containerPort: 8761
