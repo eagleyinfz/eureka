@@ -1,42 +1,17 @@
 server:
   port: 8761
 
-encrypt:
-  failOnError: false
-
-security:
-  basic:
-    enabled: false
-  user:
-    name: user
-    password: 123456
-
-management:
-  security:
-    enabled: false
-  endpoints:
-    web:
-      exposure:
-        include: "*"  
-  endpoint:
-    health:
-      show-details: ALWAYS
-
 eureka:
   instance:
-    hostname: discovery
-    metadata-map:
-          user:
-            name: user
-            password: 123456
+    hostname: localhost
   client:
-    registerWithEureka: true
-    fetchRegistry: true
+    registerWithEureka: false
+    fetchRegistry: false
     serviceUrl:
-      defaultZone: http://discovery:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
-spring:
-  cloud:
-    config:
-      discovery: 
-        enabled: true
+logging:
+  level:
+      - ".=info"
+      - "com.accenture.micropaas=debug"
+      - "org.springframework=info"
